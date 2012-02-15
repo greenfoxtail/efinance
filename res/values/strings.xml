@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">易理财</string>
+    <!-- 底部Tab的名称 -->
+    <string name="tab_calendar">日历</string>
+    <string name="tab_query">查询</string>
+    <string name="tab_analysis">统计</string>
+    <string name="tab_calculator">计算</string>
+    <string name="tab_setting">设置</string>
+
+</resources>

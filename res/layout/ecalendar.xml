@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:daygrid="http://schemas.android.com/apk/res/foxtail.efinance.ecalendar.DayGridView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:gravity="fill" >
+        
+    <RelativeLayout android:id="@+id/relativeLayout_top_bar"
+	    android:background="@drawable/shape_topbar"
+		android:layout_width="fill_parent" android:layout_height="50dip">
+
+		<Button android:id="@+id/month_dec_id"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:background="@drawable/arrow_dec"
+		android:layout_marginBottom="2dip" android:layout_marginLeft="10dip"
+		android:layout_alignParentBottom="true">
+	    </Button>
+	    
+		<TextView android:id="@+id/year_month_text_id"
+		android:layout_toRightOf="@id/month_dec_id"
+		android:layout_marginLeft="10dip"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_marginBottom="5dip"
+		android:textSize="20px"
+		android:text="2012 / 3"
+		android:layout_alignParentBottom="true"
+		/>    
+		    
+		<Button android:id="@+id/month_inc_id"
+		android:layout_toRightOf="@id/year_month_text_id"
+		android:layout_marginLeft="10dip"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:background="@drawable/arrow_inc"
+		android:layout_marginBottom="2dip"
+		android:layout_alignParentBottom="true">
+	    </Button>
+	    
+		<Button android:id="@+id/today_id"
+		android:layout_toRightOf="@id/month_inc_id"
+		android:layout_marginLeft="50dip"
+		android:layout_width="wrap_content" android:layout_height="40dip"
+		android:text="当月"
+		android:textColor="#ffffffff"
+		android:background="@drawable/shape_checked"
+		android:layout_marginBottom="2dip">    
+		</Button>
+
+	</RelativeLayout>
+	
+        
+    <RelativeLayout android:id="@+id/days_layout_id"
+        android:layout_below="@id/relativeLayout_top_bar"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		
+        <foxtail.efinance.ecalendar.DayGridView
+            android:id="@+id/days_grid_id"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+
+    </RelativeLayout> 
+</RelativeLayout>

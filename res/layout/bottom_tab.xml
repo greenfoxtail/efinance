@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost android:id="@android:id/tabhost" android:layout_width="fill_parent" android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"> 
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+        <FrameLayout 
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.0"/>
+        
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.0"/>
+        
+        <RadioGroup 
+            android:gravity="center_vertical"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:id="@+id/bottom_tab_radio"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            
+            <RadioButton 
+                android:id="@+id/tab_calendar"
+                android:tag="tab_calendar"
+                android:layout_marginTop="2.0dip"
+                android:text="@string/tab_calendar"
+                style="@style/bottom_tab"/>
+            
+            <RadioButton 
+                android:id="@+id/tab_query"
+                android:tag="tab_query"
+                android:layout_marginTop="2.0dip"
+                android:text="@string/tab_query"
+                style="@style/bottom_tab"/>
+            
+            <RadioButton 
+                android:id="@+id/tab_analysis"
+                android:tag="tab_analysis"
+                android:layout_marginTop="2.0dip"
+                android:text="@string/tab_analysis"
+                style="@style/bottom_tab"/>
+            
+            <RadioButton 
+                android:id="@+id/tab_calculator"
+                android:tag="tab_calculator"
+                android:layout_marginTop="2.0dip"
+                android:text="@string/tab_calculator"
+                style="@style/bottom_tab"/>
+            
+            <RadioButton 
+                android:id="@+id/tab_setting"
+                android:tag="tab_setting"
+                android:layout_marginTop="2.0dip"
+                android:text="@string/tab_setting"
+                style="@style/bottom_tab"/>
+
+        </RadioGroup>          
+    </LinearLayout>
+</TabHost>
