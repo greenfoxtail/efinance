@@ -5,12 +5,10 @@ package foxtail.efinance.ecalendar;
 
 import foxtail.util.Calendar;
 import foxtail.util.Date;
-import android.R.color;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,17 +17,22 @@ import android.util.Log;
 public class DayGridView extends View {
 	
 	private Calendar cr = new Calendar();
-	private int INDEX = 0;
-	private int END = 0;
-	private int WIDTH = 0;
-	public int HEIGHT = 0;
-	private final int edge = 2;
+	
+	//====================================
+	//DayGridView的基本参数
+	//====================================
+	private int INDEX;
+	private int END;	
+	private int WIDTH;
+	public int HEIGHT;
+	private int edge;
 	private DayGridViewAttrs attrs;
 	public DayGridView(Context context,AttributeSet attrs)
 	{
 		super(context, attrs);
 		INDEX = cr.getCalendarIndex();
 		END = cr.getCalendarEnd();
+		edge = 2;
 	}
 	
 	
@@ -43,7 +46,111 @@ public class DayGridView extends View {
         cr.setSolarDate(date);
         END = cr.getDaysInSolarMonth();
 	}
+		
+	private void drawDateTable(Canvas canvas)
+	{
+		canvas.drawColor(Color.argb(0, 0, 0, 0));
+		int ROWS = attrs.getRows();
+		int firstRowHeight = attrs.getFirstRowHeight();
+		int deltaHeight = attrs.getDeltaHeight();
+		int deltaWidth = attrs.getDeltaWidth();
+		
+		int tempDeltaSolar = deltaWidth/4;
+		int tempDeltaLunar = deltaWidth/3;
+		//绘制星期栏
+		canvas.drawRect(new Rect(edge,edge,WIDTH-edge,firstRowHeight+edge), attrs.getWeekTitleBackgroundPaint());
+		String []WEEKDAY = {"周日","周一","周二","周三","周四","周五","周六"};
+		for(int i=0;i<7;i++)
+		{
+			canvas.drawText(WEEKDAY[i], tempDeltaSolar+i*deltaWidth, 3*firstRowHeight/4, attrs.getWeekTitlePaint());
+		}
+		
+		//绘制网格
+		canvas.drawLine(edge, edge, WIDTH-edge, edge, attrs.getGridPaint());
+		for(int i=0;i<ROWS-1;i++)
+		{
+			canvas.drawLine(edge, edge+firstRowHeight+deltaHeight*i, WIDTH-edge, edge+firstRowHeight+deltaHeight*i, attrs.getGridPaint());
+		}
+		canvas.drawLine(edge, HEIGHT - edge, WIDTH-edge, HEIGHT - edge, attrs.getGridPaint());
+		
+		for(int j=0;j<8;j++)
+		{
+			canvas.drawLine(edge+deltaWidth*j, edge+firstRowHeight, edge+deltaWidth*j, HEIGHT - edge, attrs.getGridPaint());
+		}
+		
+		
+        //绘制日期
+		int m = INDEX;
+		int n = 0;
+		int r = 0;
+		for(int i=0;i<END;i++)
+		{
+			Date tempDate = new Date(cr.getSolarDate());
+			cr.setSolarDate(new Date(tempDate.getYear(),tempDate.getMonth(),i+1));
+			cr.Solar2Lunar();
+			if(i>8)
+			{
+				if((m+n+1)%7 == 0)
+				{
+					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
+					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
+					m = 0;
+					n = 0;
+					r++;
+				}
+				else if(n == 0 && m == 0)
+				{
+					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
+					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
+					n++;
+				}
+				else
+				{
+					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getSolarDayPaint());
+					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
+					n++;
+				}
+			}
+			else
+			{
+				if((m+n+1)%7 == 0)
+				{
+					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
+					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
+					m = 0;
+					n = 0;
+					r++;
+				}
+				else if(n == 0 && m == 0)
+				{
+					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
+					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
+					n++;
+				}
+				else
+				{
+					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getSolarDayPaint());
+					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
+					n++;
+				}
+			}
+		}
+		
+	}
+	protected void onDraw(Canvas canvas)
+	{
+		super.onDraw(canvas);
+		canvas.drawColor(Color.argb(255, 255, 255, 255));
+		//获取绘制区域参数
+		WIDTH =  this.getWidth();
+		HEIGHT = this.getHeight();
+		attrs = new DayGridViewAttrs();
+		drawDateTable(canvas);
+	}
 	
+	//=================================================================================
+	//绘制日历视图时的参数设置
+	//=================================================================================
 	public class DayGridViewAttrs
 	{
 		//=============================
@@ -197,107 +304,6 @@ public class DayGridView extends View {
 		public void setWeekTitleBackgroundPaint(Paint weekTitleBackgroundPaint) {
 			this.weekTitleBackgroundPaint = weekTitleBackgroundPaint;
 		}	
-	}
-	
-	private void drawDateTable(Canvas canvas)
-	{
-		canvas.drawColor(Color.argb(0, 0, 0, 0));
-		int ROWS = attrs.getRows();
-		int firstRowHeight = attrs.getFirstRowHeight();
-		int deltaHeight = attrs.getDeltaHeight();
-		int deltaWidth = attrs.getDeltaWidth();
-		
-		int tempDeltaSolar = deltaWidth/4;
-		int tempDeltaLunar = deltaWidth/3;
-		//绘制星期栏
-		canvas.drawRect(new Rect(edge,edge,WIDTH-edge,firstRowHeight+edge), attrs.getWeekTitleBackgroundPaint());
-		String []WEEKDAY = {"周日","周一","周二","周三","周四","周五","周六"};
-		for(int i=0;i<7;i++)
-		{
-			canvas.drawText(WEEKDAY[i], tempDeltaSolar+i*deltaWidth, 3*firstRowHeight/4, attrs.getWeekTitlePaint());
-		}
-		
-		//绘制网格
-		canvas.drawLine(edge, edge, WIDTH-edge, edge, attrs.getGridPaint());
-		for(int i=0;i<ROWS-1;i++)
-		{
-			canvas.drawLine(edge, edge+firstRowHeight+deltaHeight*i, WIDTH-edge, edge+firstRowHeight+deltaHeight*i, attrs.getGridPaint());
-		}
-		canvas.drawLine(edge, HEIGHT - edge, WIDTH-edge, HEIGHT - edge, attrs.getGridPaint());
-		
-		for(int j=0;j<8;j++)
-		{
-			canvas.drawLine(edge+deltaWidth*j, edge+firstRowHeight, edge+deltaWidth*j, HEIGHT - edge, attrs.getGridPaint());
-		}
-		
-		
-        //绘制日期
-		int m = INDEX;
-		int n = 0;
-		int r = 0;
-		for(int i=0;i<END;i++)
-		{
-			Date tempDate = new Date(cr.getSolarDate());
-			cr.setSolarDate(new Date(tempDate.getYear(),tempDate.getMonth(),i+1));
-			cr.Solar2Lunar();
-			if(i>8)
-			{
-				if((m+n+1)%7 == 0)
-				{
-					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
-					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
-					m = 0;
-					n = 0;
-					r++;
-				}
-				else if(n == 0 && m == 0)
-				{
-					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
-					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
-					n++;
-				}
-				else
-				{
-					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getSolarDayPaint());
-					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
-					n++;
-				}
-			}
-			else
-			{
-				if((m+n+1)%7 == 0)
-				{
-					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
-					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
-					m = 0;
-					n = 0;
-					r++;
-				}
-				else if(n == 0 && m == 0)
-				{
-					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getWeekendPaint());
-					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
-					n++;
-				}
-				else
-				{
-					canvas.drawText(Integer.toString(i+1), tempDeltaSolar+(m+n)*deltaWidth, firstRowHeight+2*deltaHeight/3+r*deltaHeight, attrs.getSolarDayPaint());
-					canvas.drawText(cr.getLunarDate().getDayInHanzi(), tempDeltaLunar+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, attrs.getLunarDayPaint());
-					n++;
-				}
-			}
-		}
-		
-	}
-	protected void onDraw(Canvas canvas)
-	{
-		super.onDraw(canvas);
-		canvas.drawColor(Color.argb(255, 255, 255, 255));
-		//获取绘制区域参数
-		WIDTH =  this.getWidth();
-		HEIGHT = this.getHeight();
-		attrs = new DayGridViewAttrs();
-		drawDateTable(canvas);
 	}
 
 }
