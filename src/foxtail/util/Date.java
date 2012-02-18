@@ -26,6 +26,13 @@ public class Date
 		this.day =  day;
 	}
 	
+	public void setDate(int year, int month, int day)
+	{
+		this.year = year;
+		this.month = month;
+		this.day =  day;
+	}
+	
 	public Date(Date d)
 	{
 		this.year = d.year;

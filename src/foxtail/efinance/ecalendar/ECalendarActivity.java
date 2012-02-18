@@ -1,6 +1,7 @@
 package foxtail.efinance.ecalendar;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ECalendarActivity extends Activity {
 	        final Date tempDate = new Date(nowDate);
 	        
 	        final TextView tv = (TextView)findViewById(R.id.year_month_text_id);
+	        tv.setTextColor(Color.BLACK);
 	        tv.setText(Integer.toString(nowDate.getYear())+"Äê"+Integer.toString(nowDate.getMonth())+"ÔÂ");
 	        
 	        final DayGridView dayTable = (DayGridView)findViewById(R.id.days_grid_id);

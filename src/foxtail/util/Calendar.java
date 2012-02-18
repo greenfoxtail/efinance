@@ -853,7 +853,7 @@ public class Calendar {
 	//**************************************************************
 	public String getJieQi()
 	{
-		String noInfo = "无节气信息";
+		String noInfo = "noInfo";
 		int year,month,day,temp;
 		year = solar.getYear() - 1901;
 		month = solar.getMonth();
@@ -865,7 +865,7 @@ public class Calendar {
 			temp = 15 - day;
 			if((jieqiCode[offset]>>4) == temp)
 			{
-				return solarTerm[month<<1];
+				return solarTerm[(month<<1)-2];
 			}
 			else return noInfo;
 		}

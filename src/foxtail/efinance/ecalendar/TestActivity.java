@@ -9,5 +9,6 @@ public class TestActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
+		final DayGridView dayTable = (DayGridView)findViewById(R.id.test_grid_id);
 		}
 }
