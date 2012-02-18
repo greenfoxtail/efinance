@@ -65,7 +65,7 @@ public class DayGridView extends View {
 	
 	private void setJieQiPaint()
 	{
-		calPaint.setColor(Color.argb(255, 51, 153, 51));
+		calPaint.setColor(Color.argb(255, 255, 102, 102));
 		calPaint.setAntiAlias(true);
 		calPaint.setTextSize(lunarDayFontSize);
 	}
@@ -229,11 +229,19 @@ public class DayGridView extends View {
 				if(isJieQi)
 				{
 					this.setJieQiPaint();
+					if(isToday)
+					{
+						calPaint.setColor(Color.WHITE);
+					}
 					canvas.drawText(cr.getJieQi(), deltaLunarWidth+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, calPaint);
 				}
 				else
 				{
 					this.setLunarDayPaint();
+					if(isToday)
+					{
+						calPaint.setColor(Color.WHITE);
+					}
 					canvas.drawText(cr.getLunarDate().getDayInHanzi(), deltaLunarWidth+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, calPaint);
 				}
 				m = 0;
@@ -256,11 +264,19 @@ public class DayGridView extends View {
 				if(isJieQi)
 				{
 					this.setJieQiPaint();
+					if(isToday)
+					{
+						calPaint.setColor(Color.WHITE);
+					}
 					canvas.drawText(cr.getJieQi(), deltaLunarWidth+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, calPaint);
 				}
 				else
 				{
 					this.setLunarDayPaint();
+					if(isToday)
+					{
+						calPaint.setColor(Color.WHITE);
+					}
 					canvas.drawText(cr.getLunarDate().getDayInHanzi(), deltaLunarWidth+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, calPaint);
 				}
 				n++;
@@ -281,11 +297,19 @@ public class DayGridView extends View {
 				if(isJieQi)
 				{
 					this.setJieQiPaint();
+					if(isToday)
+					{
+						calPaint.setColor(Color.WHITE);
+					}
 					canvas.drawText(cr.getJieQi(), deltaLunarWidth+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, calPaint);
 				}
 				else
 				{
 					this.setLunarDayPaint();
+					if(isToday)
+					{
+						calPaint.setColor(Color.WHITE);
+					}
 					canvas.drawText(cr.getLunarDate().getDayInHanzi(), deltaLunarWidth+(m+n)*deltaWidth, firstRowHeight+deltaHeight+r*deltaHeight-edge, calPaint);
 				}
 				n++;
