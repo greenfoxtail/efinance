@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class ECalendarActivity extends Activity {
 	        final DayGridView DayTable[] = {preDayTable, afterDayTable};
 	        
 	        final ViewFlipper calFlipper = (ViewFlipper)findViewById(R.id.cal_flip_id);
+	        calFlipper.setInAnimation(this,R.layout.in);
+	        calFlipper.setOutAnimation(this,R.layout.out);
 	        
 	        Button dateDecButton = (Button)findViewById(R.id.month_dec_id);
 	        Button dateIncButton = (Button)findViewById(R.id.month_inc_id);
@@ -56,18 +59,26 @@ public class ECalendarActivity extends Activity {
 	        final Button nowDateButton = (Button)findViewById(R.id.today_id);
 	        nowDateButton.setVisibility(View.GONE);
 	        
-	        int pa = 0;//用于循环显示viewflipper避免日历翻滚时数据发生变化，主要日历刷新比翻页快的原因导致。
+	        class PreAfter
+	        {
+	        	int tag;//用于循环显示viewflipper避免日历翻滚时数据发生变化，主要日历刷新比翻页快的原因导致。
+	        	public PreAfter()
+	        	{
+	        		this.tag = 0;
+	        	}
+	        }
+	        
+	        final PreAfter pa = new PreAfter();
+	        
 	        //==============================================================================
 	        //各种监听事件啊
 	        //==============================================================================
 	        
 	        class DecOnClickListener implements Button.OnClickListener
 	        {
-	        	int pa;
 	        	private Context context;
-	        	public DecOnClickListener(Context context,int pa)
+	        	public DecOnClickListener(Context context)
 	        	{
-	        		this.pa = pa;
 	        		this.context = context;
 	        	}
 
@@ -102,32 +113,30 @@ public class ECalendarActivity extends Activity {
 					
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
 					
-					if(pa == 0)
+					if(pa.tag == 0)
 					{
-						pa = 1;
+						pa.tag = 1;
 					}
 					else
 					{
-						pa = 0;
+						pa.tag = 0;
 					}
-					DayTable[pa].setCalendarDate(tempDate);
-					calFlipper.setInAnimation(context,R.layout.out);
-			        calFlipper.setOutAnimation(context,R.layout.in);
+					DayTable[pa.tag].setCalendarDate(tempDate);
+					//calFlipper.setInAnimation(context,R.layout.out);
+			        //calFlipper.setOutAnimation(context,R.layout.in);
 					calFlipper.showPrevious();
 					//preDayTable.invalidate();
 					
 				}
 	        }
-	        dateDecButton.setOnClickListener(new DecOnClickListener(this,pa));
+	        dateDecButton.setOnClickListener(new DecOnClickListener(this));
 	        
 	        
 	        class IncOnClickListener implements Button.OnClickListener
 	        {
-	        	int pa;
 	        	private Context context;
-	        	public IncOnClickListener(Context context,int pa)
+	        	public IncOnClickListener(Context context)
 	        	{
-	        		this.pa = pa;
 	        		this.context = context;
 	        	}
 	        	
@@ -161,32 +170,30 @@ public class ECalendarActivity extends Activity {
 					
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
 					
-					if(pa == 0)
+					if(pa.tag == 0)
 					{
-						pa = 1;
+						pa.tag = 1;
 					}
 					else
 					{
-						pa = 0;
+						pa.tag = 0;
 					}
-					DayTable[pa].setCalendarDate(tempDate);
-					calFlipper.setInAnimation(context,R.layout.in);
-			        calFlipper.setOutAnimation(context,R.layout.out);
+					DayTable[pa.tag].setCalendarDate(tempDate);
+					//calFlipper.setInAnimation(context,R.layout.in);
+			        //calFlipper.setOutAnimation(context,R.layout.out);
 					calFlipper.showNext();
 					//preDayTable.invalidate();
 					
 				}
 	        	
 	        }
-	        dateIncButton.setOnClickListener(new IncOnClickListener(this,pa));
+	        dateIncButton.setOnClickListener(new IncOnClickListener(this));
 	        
 	        class NowDateOnClickListener implements Button.OnClickListener
 	        {
-	        	int pa;
 	        	private Context context;
-	        	public NowDateOnClickListener(Context context,int pa)
+	        	public NowDateOnClickListener(Context context)
 	        	{
-	        		this.pa = pa;
 	        		this.context = context;
 	        	}
 	        	public void onClick(View v) {
@@ -194,23 +201,23 @@ public class ECalendarActivity extends Activity {
 					tempDate.setDate(nowDate);
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
 					nowDateButton.setVisibility(View.GONE);
-					if(pa == 0)
+					if(pa.tag == 0)
 					{
-						pa = 1;
+						pa.tag = 1;
 					}
 					else
 					{
-						pa = 0;
+						pa.tag = 0;
 					}
-					DayTable[pa].setCalendarDate(tempDate);
-					calFlipper.setInAnimation(context,R.layout.in);
-			        calFlipper.setOutAnimation(context,R.layout.out);
+					DayTable[pa.tag].setCalendarDate(tempDate);					
+					//calFlipper.setInAnimation(context,R.layout.in);
+			        //calFlipper.setOutAnimation(context,R.layout.out);
 					calFlipper.showNext();
 					//preDayTable.invalidate();
 					
 				}
 	        	
 	        }
-	        nowDateButton.setOnClickListener(new NowDateOnClickListener(this,pa));
+	        nowDateButton.setOnClickListener(new NowDateOnClickListener(this));
 	 } 
 }

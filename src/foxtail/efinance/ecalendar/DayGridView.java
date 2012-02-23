@@ -13,7 +13,7 @@ import android.graphics.Rect;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.view.View;
-import android.util.Log;
+//import android.util.Log;
 
 public class DayGridView extends View {
 	
@@ -195,12 +195,12 @@ public class DayGridView extends View {
 					nowDate.getDay() == i+1)
 			{
 				isToday = true;
-				Log.i("true:nowDate",Integer.toString(nowDate.getDay()) );
+				//Log.i("true:nowDate",Integer.toString(nowDate.getDay()) );
 			}
 			else
 			{
 				isToday = false;
-				Log.i("false:nowDate",Integer.toString(nowDate.getDay()) );
+				//Log.i("false:nowDate",Integer.toString(nowDate.getDay()) );
 			}
 			//ÉèÖÃ½ÚÆø
 			boolean isJieQi = false;
