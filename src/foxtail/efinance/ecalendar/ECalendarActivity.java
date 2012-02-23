@@ -26,6 +26,14 @@ public class ECalendarActivity extends Activity {
 	        final Date nowDate = new Date(year, month, day);
 	        final Date tempDate = new Date(nowDate);
 	        
+	        Calendar cr = new Calendar();
+	        cr.setSolarDate(nowDate);
+	        cr.Solar2Lunar();
+	        
+	        final TextView inFo = (TextView)findViewById(R.id.lunar_info_id);
+	        inFo.setTextColor(Color.BLACK);
+	        inFo.setText(cr.getGanZhiYear()+"年  生肖【"+cr.getShengXiao()+"】 今天是 农历:"+cr.getLunarDate().getMonthInHanzi()+"月 "+cr.getLunarDate().getDayInHanzi());
+	        
 	        final TextView tv = (TextView)findViewById(R.id.year_month_text_id);
 	        tv.setTextColor(Color.BLACK);
 	        tv.setText(Integer.toString(nowDate.getYear())+"年"+Integer.toString(nowDate.getMonth())+"月");

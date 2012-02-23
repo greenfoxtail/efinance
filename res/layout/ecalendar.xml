@@ -15,6 +15,7 @@
     
 
         <foxtail.efinance.ecalendar.DayGridView
+            android:background="#c8ffffff"
             android:layout_below="@id/lunar_info_id"
             android:id="@+id/days_grid_id"
             android:layout_width="fill_parent"
