@@ -210,8 +210,8 @@ public class ECalendarActivity extends Activity {
 						pa.tag = 0;
 					}
 					DayTable[pa.tag].setCalendarDate(tempDate);					
-					//calFlipper.setInAnimation(context,R.layout.in);
-			        //calFlipper.setOutAnimation(context,R.layout.out);
+					calFlipper.setInAnimation(context,R.layout.ani_today_in);
+			        calFlipper.setOutAnimation(context,R.layout.ani_today_out);
 					calFlipper.showNext();
 					//preDayTable.invalidate();
 					
