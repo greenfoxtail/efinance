@@ -142,7 +142,7 @@ public class DayGridView extends View {
 			
 	private void drawDateTable(Canvas canvas)
 	{
-		canvas.drawColor(Color.argb(0, 0, 0, 0));
+		canvas.drawColor(Color.argb(255, 255, 255, 255));
 		//绘制星期栏
 		//this.setWeekTitleBackgroundPaint();
 		//canvas.drawRect(new Rect(edge,edge,WIDTH-edge,firstRowHeight+edge), calPaint);
@@ -320,7 +320,6 @@ public class DayGridView extends View {
 	protected void onDraw(Canvas canvas)
 	{
 		super.onDraw(canvas);
-		canvas.drawColor(Color.argb(255, 255, 255, 255));
 		//===============================================
 		//获取绘制区域参数
 		WIDTH =  this.getWidth();
