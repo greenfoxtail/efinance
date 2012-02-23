@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.format.Time;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 //import android.util.Log;
 

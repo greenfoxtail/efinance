@@ -20,11 +20,9 @@ import foxtail.util.Date;
 public class ECalendarActivity extends Activity implements OnGestureListener{
 	
 	//获取当前日期
-    Time t = new Time();
-    
-    
-    final Date nowDate = new Date();
-    final Date tempDate = new Date();
+    private Time t;    
+    private Date nowDate;
+    private Date tempDate;
     
     
     
@@ -37,25 +35,30 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
     	}
     }
     
-    final PreAfter pa = new PreAfter();
+    private PreAfter pa;
     
-    Button nowDateButton;
-    TextView inFo;
-    TextView tv;
-    DayGridView preDayTable;
-    DayGridView afterDayTable;
-    DayGridView DayTable[]; 
-    ViewFlipper calFlipper;
+    private Button nowDateButton;
+    private TextView inFo;
+    private TextView tv;
+    private DayGridView preDayTable;
+    private DayGridView afterDayTable;
+    private DayGridView DayTable[]; 
+    private  ViewFlipper calFlipper;
     
     private GestureDetector mGestureDetector;
     
     Calendar cr = new Calendar();
+    
+    
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.ecalendar);
 	        
-	        mGestureDetector = new GestureDetector(this);
-	        
+	        mGestureDetector = new GestureDetector(this);//滑动
+	        pa = new PreAfter();
+	        nowDate = new Date();
+	        tempDate = new Date();
+	        t = new Time();
 	        t.setToNow();
 	        int year = t.year;
 	        int month = t.month+1;
@@ -75,6 +78,8 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	        DayTable[0] = preDayTable;
 	        DayTable[1] = afterDayTable;
 	        calFlipper = (ViewFlipper)findViewById(R.id.cal_flip_id);
+	        
+	        //calFlipper.setOnTouchListener(mGestureDetector.onTouchEvent());
 	        
 	        inFo.setTextColor(Color.BLACK);
 	        inFo.setText(cr.getGanZhiYear()+"年  生肖【"+cr.getShengXiao()+"】 今天是 农历:"+cr.getLunarDate().getMonthInHanzi()+"月 "+cr.getLunarDate().getDayInHanzi());
@@ -252,17 +257,30 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	 //====================================================================================
 	 //手势滑屏
 	 //====================================================================================
+	 public boolean onTouchEvent (MotionEvent event)
+	{
+		 Log.i("onTouchEvent", "美女");
+			return this.mGestureDetector.onTouchEvent(event);
+	}
+	 
+	 public boolean dispatchTouchEvent(MotionEvent event)
+	 {
+		 Log.i("dispatchTouchEvent", "帅哥");
+		 this.mGestureDetector.onTouchEvent(event);
+		 return super.dispatchTouchEvent(event);
+	 }
+	 
 	@Override
 	public boolean onDown(MotionEvent arg0) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3) {
 		// TODO Auto-generated method stub
-		
+		Log.i("FG", "执行了滑屏");
 		if(arg0.getX()>arg1.getX())//向左移动
 		{
 			if(tempDate.getMonth() + 1 >=12 )
