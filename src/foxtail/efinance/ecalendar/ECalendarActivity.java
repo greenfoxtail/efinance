@@ -7,6 +7,7 @@ import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import foxtail.efinance.R;
 import foxtail.util.Calendar;
 import foxtail.util.Date;
@@ -38,8 +39,17 @@ public class ECalendarActivity extends Activity {
 	        tv.setTextColor(Color.BLACK);
 	        tv.setText(Integer.toString(nowDate.getYear())+"年"+Integer.toString(nowDate.getMonth())+"月");
 	        
-	        final DayGridView dayTable = (DayGridView)findViewById(R.id.days_grid_id);
-	        dayTable.setCalendarDate(nowDate);
+	        final DayGridView preDayTable = (DayGridView)findViewById(R.id.pre_days_grid_id);
+	        preDayTable.setCalendarDate(nowDate);
+	        
+	        final DayGridView afterDayTable = (DayGridView)findViewById(R.id.after_days_grid_id);
+	        afterDayTable.setCalendarDate(nowDate);
+	        
+	        final DayGridView DayTable[] = {preDayTable, afterDayTable};
+	        
+	        final ViewFlipper calFlipper = (ViewFlipper)findViewById(R.id.cal_flip_id);
+	        calFlipper.setInAnimation(this,R.layout.in);
+	        calFlipper.setOutAnimation(this,R.layout.out);
 	        
 	        Button dateDecButton = (Button)findViewById(R.id.month_dec_id);
 	        Button dateIncButton = (Button)findViewById(R.id.month_inc_id);
@@ -80,8 +90,10 @@ public class ECalendarActivity extends Activity {
 					
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
 					
-					dayTable.setCalendarDate(tempDate);
-					dayTable.invalidate();
+					preDayTable.setCalendarDate(tempDate);
+					afterDayTable.setCalendarDate(tempDate);
+					calFlipper.showPrevious();
+					//preDayTable.invalidate();
 					
 				}
 	        });
@@ -119,8 +131,10 @@ public class ECalendarActivity extends Activity {
 					
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
 					
-					dayTable.setCalendarDate(tempDate);
-					dayTable.invalidate();
+					preDayTable.setCalendarDate(tempDate);
+					afterDayTable.setCalendarDate(tempDate);
+					calFlipper.showNext();
+					//preDayTable.invalidate();
 					
 				}
 	        });
@@ -133,8 +147,10 @@ public class ECalendarActivity extends Activity {
 					tempDate.setDate(nowDate);
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
 					nowDateButton.setVisibility(View.GONE);
-					dayTable.setCalendarDate(tempDate);
-					dayTable.invalidate();
+					preDayTable.setCalendarDate(tempDate);
+					afterDayTable.setCalendarDate(tempDate);
+					calFlipper.showPrevious();
+					//preDayTable.invalidate();
 					
 				}
 	        });

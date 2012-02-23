@@ -11,20 +11,34 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:textSize="15px"
 		android:text="壬辰年"
-		/>   
+		/>  
+		
+    
+    <ViewFlipper android:id="@+id/cal_flip_id"
+                 android:layout_height="280dip"
+                 android:layout_width="fill_parent"
+                 android:layout_below="@id/lunar_info_id">
+        
+        <foxtail.efinance.ecalendar.DayGridView
+            android:background="#c8ffffff"     
+            android:id="@+id/pre_days_grid_id"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+        
+        <foxtail.efinance.ecalendar.DayGridView
+            android:background="#c8ffffff"     
+            android:id="@+id/after_days_grid_id"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>       
+    </ViewFlipper>
     
 
-        <foxtail.efinance.ecalendar.DayGridView
-            android:background="#c8ffffff"
-            android:layout_below="@id/lunar_info_id"
-            android:id="@+id/days_grid_id"
-            android:layout_width="fill_parent"
-            android:layout_height="280dip"/>
+        
 
      
     
     <RelativeLayout android:id="@+id/relativeLayout_top_bar"
-        android:layout_below="@id/days_grid_id"
+        android:layout_below="@id/cal_flip_id"
 	    android:background="#c8ffffff"
 		android:layout_width="fill_parent" android:layout_height="50dip">
 
