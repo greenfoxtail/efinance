@@ -50,8 +50,8 @@ public class ECalendarActivity extends Activity {
 	        final DayGridView DayTable[] = {preDayTable, afterDayTable};
 	        
 	        final ViewFlipper calFlipper = (ViewFlipper)findViewById(R.id.cal_flip_id);
-	        calFlipper.setInAnimation(this,R.layout.in);
-	        calFlipper.setOutAnimation(this,R.layout.out);
+	        //calFlipper.setInAnimation(this,R.layout.in);
+	        //calFlipper.setOutAnimation(this,R.layout.out);
 	        
 	        Button dateDecButton = (Button)findViewById(R.id.month_dec_id);
 	        Button dateIncButton = (Button)findViewById(R.id.month_inc_id);
@@ -122,8 +122,8 @@ public class ECalendarActivity extends Activity {
 						pa.tag = 0;
 					}
 					DayTable[pa.tag].setCalendarDate(tempDate);
-					//calFlipper.setInAnimation(context,R.layout.out);
-			        //calFlipper.setOutAnimation(context,R.layout.in);
+					calFlipper.setInAnimation(context,R.layout.ani_dec_in);
+			        calFlipper.setOutAnimation(context,R.layout.ani_dec_out);
 					calFlipper.showPrevious();
 					//preDayTable.invalidate();
 					
@@ -179,8 +179,8 @@ public class ECalendarActivity extends Activity {
 						pa.tag = 0;
 					}
 					DayTable[pa.tag].setCalendarDate(tempDate);
-					//calFlipper.setInAnimation(context,R.layout.in);
-			        //calFlipper.setOutAnimation(context,R.layout.out);
+					calFlipper.setInAnimation(context,R.layout.ani_inc_in);
+			        calFlipper.setOutAnimation(context,R.layout.ani_inc_out);
 					calFlipper.showNext();
 					//preDayTable.invalidate();
 					
