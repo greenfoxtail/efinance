@@ -20,13 +20,13 @@
                  android:layout_below="@id/lunar_info_id">
         
         <foxtail.efinance.ecalendar.DayGridView
-            android:background="#c8ffffff"     
+            android:background="#ffffffff"     
             android:id="@+id/pre_days_grid_id"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
         
         <foxtail.efinance.ecalendar.DayGridView
-            android:background="#c8ffffff"     
+            android:background="#ffffffff"     
             android:id="@+id/after_days_grid_id"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>       
