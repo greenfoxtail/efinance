@@ -12,14 +12,23 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.format.Time;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-//import android.util.Log;
+import android.util.Log;
 
-public class DayGridView extends View {
+public class DayGridView extends View implements OnGestureListener{
 	
+	private GestureDetector dgvGestureDetector;
 	private Calendar cr;
 	private Date nowDate;
+	private Date selectedDate;
+	//----------------触摸参数
+	private int touchX;
+	private int touchY;
+	private int touchRow;
+	private int touchCol;
 	
 	//====================================
 	//DayGridView的基本参数
@@ -29,7 +38,8 @@ public class DayGridView extends View {
 	private int WIDTH;
 	public int HEIGHT;//以上参数由日历获取
 	
-	private int edge;			//边界宽度
+	//private int edge;			//边界宽度
+	private final int edge = 4;
 	private int deltaWidth;		//宽度步进
 	private int deltaHeight;	//高度步进
 	private int rows;			//日期所占的行数(除去星期栏)
@@ -40,6 +50,7 @@ public class DayGridView extends View {
 	private int solarDayFontSize;//deltaWidth/2
 	private int lunarDayFontSize;//deltaHeight/5
 	private int titleFontSize;   //firstRowHeight/2
+
 	//===================================================
 	//   画笔设置
 	//===================================================
@@ -92,14 +103,14 @@ public class DayGridView extends View {
 	
 	private void setSelectedDayPaint()
 	{
-		calPaint.setColor(Color.BLUE);
+		calPaint.setColor(Color.WHITE);
 		calPaint.setAntiAlias(true);
 		calPaint.setTextSize(solarDayFontSize);
 	}
 	
 	private void setSelectedDayBackgoundPaint()
 	{
-		calPaint.setColor(Color.BLACK);
+		calPaint.setColor(Color.argb(255, 205, 102, 102));
 	}
 	
 	private void setTodayPaint()
@@ -124,13 +135,16 @@ public class DayGridView extends View {
         int month = t.month+1;
         int day = t.monthDay;
         
-		edge = 2;
+		//edge = 2;
 		calPaint = new Paint();
 		cr = new Calendar();
 		nowDate = new Date();
+		selectedDate = new Date();
 		nowDate.setDate(year,month,day);
+		selectedDate.setDate(nowDate);
 		INDEX = cr.getCalendarIndex();
-        END = cr.getCalendarEnd();
+        END = cr.getCalendarEnd();      
+        this.dgvGestureDetector = new GestureDetector(this);
 	}
 	
 	
@@ -139,10 +153,14 @@ public class DayGridView extends View {
 		cr.setSolarDate(date);
         INDEX = cr.getCalendarIndex();
         END = cr.getCalendarEnd();
+        touchRow = 0;
+        touchCol = INDEX;
+        this.selectedDate.setDate(date);
 	}
 			
 	private void drawDateTable(Canvas canvas)
 	{
+		Log.i("order", "E");
 		//canvas.drawColor(Color.argb(255, 255, 255, 255));
 		//绘制星期栏
 		//this.setWeekTitleBackgroundPaint();
@@ -150,37 +168,38 @@ public class DayGridView extends View {
 		String []WEEKDAY = {"周日","周一","周二","周三","周四","周五","周六"};
 		this.setWeekTitlePaint();
 		calPaint.setColor(Color.argb(255, 102, 51, 102));
-		canvas.drawRect(new Rect(edge,edge,edge+deltaWidth+1,firstRowHeight+edge), calPaint);
+		canvas.drawRect(new Rect(0,0,deltaWidth+1,firstRowHeight), calPaint);
 		calPaint.setColor(Color.WHITE);
-		canvas.drawText(WEEKDAY[0], deltaSolarWidth, 4*firstRowHeight/5, calPaint);
+		canvas.drawText(WEEKDAY[0], deltaSolarWidth/2, 4*firstRowHeight/5, calPaint);
 		
 		calPaint.setColor(Color.argb(255, 153, 102, 153));
-		canvas.drawRect(new Rect(edge+deltaWidth+1,edge,WIDTH-2*edge-deltaWidth+2,firstRowHeight+edge), calPaint);
+		canvas.drawRect(new Rect(deltaWidth+1,0,WIDTH-deltaWidth+2,firstRowHeight), calPaint);
 		this.setWeekTitlePaint();
 		for(int i=1;i<6;i++)
 		{
-			canvas.drawText(WEEKDAY[i], deltaSolarWidth+i*deltaWidth, 4*firstRowHeight/5, calPaint);
+			canvas.drawText(WEEKDAY[i], deltaSolarWidth/2+i*deltaWidth, 4*firstRowHeight/5, calPaint);
 		}
 		calPaint.setColor(Color.argb(255, 102, 51, 102));
-		canvas.drawRect(new Rect(edge+6*deltaWidth,edge,edge+WIDTH-2*edge,firstRowHeight+edge), calPaint);
+		canvas.drawRect(new Rect(6*deltaWidth,0,WIDTH,firstRowHeight), calPaint);
 		calPaint.setColor(Color.WHITE);
-		canvas.drawText(WEEKDAY[6], deltaSolarWidth+6*deltaWidth, 4*firstRowHeight/5, calPaint);
+		canvas.drawText(WEEKDAY[6], deltaSolarWidth/2+6*deltaWidth, 4*firstRowHeight/5, calPaint);
 		
 		//绘制网格
 		this.setGridPaint();
-		canvas.drawLine(edge, edge, WIDTH-edge, edge, calPaint);
+		canvas.drawLine(0, 0, WIDTH, 0, calPaint);
 		for(int i=0;i<rows-1;i++)
 		{
-			canvas.drawLine(edge, edge+firstRowHeight+deltaHeight*i, WIDTH-edge, edge+firstRowHeight+deltaHeight*i, calPaint);
+			canvas.drawLine(0, firstRowHeight+deltaHeight*i, WIDTH, firstRowHeight+deltaHeight*i, calPaint);
 		}
-		canvas.drawLine(edge, HEIGHT - edge, WIDTH-edge, HEIGHT - edge, calPaint);
+		canvas.drawLine(0, HEIGHT, WIDTH, HEIGHT, calPaint);
 		
 		for(int j=0;j<8;j++)
 		{
-			canvas.drawLine(edge+deltaWidth*j, edge+firstRowHeight, edge+deltaWidth*j, HEIGHT - edge, calPaint);
+			canvas.drawLine(deltaWidth*j, firstRowHeight, deltaWidth*j, HEIGHT, calPaint);
 		}//edge+deltaWidth*j    WIDTH-edge-deltaWidth*j
 		
 		boolean isToday = false;
+		boolean isJieQi = false;
         //绘制日期
 		int m = INDEX;
 		int n = 0;
@@ -204,7 +223,6 @@ public class DayGridView extends View {
 				//Log.i("false:nowDate",Integer.toString(nowDate.getDay()) );
 			}
 			//设置节气
-			boolean isJieQi = false;
 			if(cr.getJieQi()!= "noInfo")
 			{
 				isJieQi = true;
@@ -219,7 +237,7 @@ public class DayGridView extends View {
 				if(isToday)
 				{
 					this.setTodayBackgoundPaint();
-					canvas.drawRect(new Rect(edge+(m+n)*deltaWidth+1,firstRowHeight+edge+r*deltaHeight+1,edge+(m+n+1)*deltaWidth,firstRowHeight+edge+(r+1)*deltaHeight), calPaint);
+					canvas.drawRect(new Rect((m+n)*deltaWidth+1,firstRowHeight+r*deltaHeight+1,(m+n+1)*deltaWidth,firstRowHeight+(r+1)*deltaHeight), calPaint);
 					this.setTodayPaint();
 				}
 				else
@@ -254,7 +272,7 @@ public class DayGridView extends View {
 				if(isToday)
 				{
 					this.setTodayBackgoundPaint();
-					canvas.drawRect(new Rect(edge+(m+n)*deltaWidth+1,firstRowHeight+edge+r*deltaHeight+1,edge+(m+n+1)*deltaWidth,firstRowHeight+edge+(r+1)*deltaHeight), calPaint);
+					canvas.drawRect(new Rect((m+n)*deltaWidth+1,firstRowHeight+r*deltaHeight+1,(m+n+1)*deltaWidth,firstRowHeight+(r+1)*deltaHeight), calPaint);
 					this.setTodayPaint();
 				}
 				else
@@ -287,7 +305,7 @@ public class DayGridView extends View {
 				if(isToday)
 				{
 					this.setTodayBackgoundPaint();
-					canvas.drawRect(new Rect(edge+(m+n)*deltaWidth+1,firstRowHeight+edge+r*deltaHeight+1,edge+(m+n+1)*deltaWidth,firstRowHeight+edge+(r+1)*deltaHeight), calPaint);
+					canvas.drawRect(new Rect((m+n)*deltaWidth+1,firstRowHeight+r*deltaHeight+1,(m+n+1)*deltaWidth,firstRowHeight+(r+1)*deltaHeight), calPaint);
 					this.setTodayPaint();
 				}
 				else
@@ -316,6 +334,51 @@ public class DayGridView extends View {
 				n++;
 			}
 		}	
+		
+		//----------------绘制选中日
+		if(getSelectedDay()>0 && getSelectedDay()<=END)
+		{
+			//----------------
+			cr.getSolarDate().setDay(getSelectedDay());
+			cr.Solar2Lunar();
+			if(cr.getJieQi()!= "noInfo")
+			{
+				isJieQi = true;
+			}
+			else
+			{
+				isJieQi = false;
+			}
+			this.setSelectedDayBackgoundPaint();
+			canvas.drawRect(new Rect(touchCol*deltaWidth+1,firstRowHeight+touchRow*deltaHeight+1,(touchCol+1)*deltaWidth,firstRowHeight+(touchRow+1)*deltaHeight), calPaint);
+			this.setSelectedDayPaint();
+			canvas.drawText(Integer.toString(getSelectedDay()), deltaSolarWidth+touchCol*deltaWidth, firstRowHeight+2*deltaHeight/3+touchRow*deltaHeight, calPaint);
+			if(isJieQi)
+			{
+				this.setJieQiPaint();
+				calPaint.setColor(Color.WHITE);
+				canvas.drawText(cr.getJieQi(), deltaLunarWidth+touchCol*deltaWidth, firstRowHeight+deltaHeight+touchRow*deltaHeight-edge, calPaint);
+			}
+			else
+			{
+				this.setLunarDayPaint();
+				calPaint.setColor(Color.WHITE);
+				canvas.drawText(cr.getLunarDate().getDayInHanzi(), deltaLunarWidth+touchCol*deltaWidth, firstRowHeight+deltaHeight+touchRow*deltaHeight-edge, calPaint);
+			}
+		}	
+	}
+	
+	private int getSelectedDay()
+	{
+		selectedDate.setYear(cr.getSolarDate().getYear());
+		selectedDate.setMonth(cr.getSolarDate().getMonth());
+		selectedDate.setDay(touchRow*7-INDEX+touchCol+1);
+		return selectedDate.getDay();
+	}
+	
+	public Date getSelectedDate()
+	{
+		return selectedDate;
 	}
 	
 	protected void onDraw(Canvas canvas)
@@ -337,5 +400,68 @@ public class DayGridView extends View {
 		//================================================
 			
 		drawDateTable(canvas);
+	}
+	
+	/*
+	public boolean dispatchTouchEvent(MotionEvent event)
+	{
+		 Log.i("ECalendarActivity", "dispatchTouchEvent");
+		 this.onTouchEvent(event);
+		 return true;
+	}*/
+	
+	 public boolean onTouchEvent (MotionEvent event)
+	{
+		 Log.i("order", "F");
+		 Log.i("onTouchEvent", "in GRIDVIEW X="+Integer.toString((int)event.getX()));
+		 //super.onTouchEvent(event);
+		 return this.dgvGestureDetector.onTouchEvent(event);
+	}
+
+	@Override
+	public boolean onDown(MotionEvent event) {
+		Log.i("order", "G");
+		Log.i("onTouchEvent", "in GRIDVIEW onDown X="+Integer.toString((int)event.getX()));
+		// TODO Auto-generated method stub
+		this.touchX = (int)event.getX();
+		this.touchY = (int)event.getY();
+		 
+		touchCol = touchX/deltaWidth;
+		touchRow = (touchY - firstRowHeight)/deltaHeight;
+		this.getSelectedDay();
+		this.invalidate();
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

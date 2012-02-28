@@ -40,6 +40,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
     
     private TextView inFo;
     private TextView tv;
+    private TextView selectedInfo;
     
     private DayGridView preDayTable;
     private DayGridView afterDayTable;
@@ -75,6 +76,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
         //----------------------------农历详细信息与该月日历年份与月份信息文本控件的初始化
         inFo = (TextView)findViewById(R.id.lunar_info_id);
         tv = (TextView)findViewById(R.id.year_month_text_id);
+        selectedInfo = (TextView)findViewById(R.id.selected_info_id);
         //----------------------------滑屏效果所需的两个DayGridView控件及ViewFlipper
         preDayTable = (DayGridView)findViewById(R.id.pre_days_grid_id);
         afterDayTable = (DayGridView)findViewById(R.id.after_days_grid_id); 
@@ -96,20 +98,25 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
     	}
     }
     
+    
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.ecalendar);      
 	        this.initialAll();
 	         
-	        inFo.setTextColor(Color.BLACK);
+	        //inFo.setTextColor(Color.BLACK);
 	        inFo.setText(cr.getGanZhiYear()+"年  生肖【"+cr.getShengXiao()+"】 今天是 农历:"+cr.getLunarDate().getMonthInHanzi()+"月 "+cr.getLunarDate().getDayInHanzi());
-	        tv.setTextColor(Color.BLACK);
+	        //tv.setTextColor(Color.BLACK);
 	        tv.setText(Integer.toString(nowDate.getYear())+"年"+Integer.toString(nowDate.getMonth())+"月");
+	        tempDate.setDay(1);
+	        cr.setSolarDate(tempDate);
+	        cr.Solar2Lunar();
+	        selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
 	               
 	        preDayTable.setCalendarDate(nowDate);      
 	        afterDayTable.setCalendarDate(nowDate);
 	        nowDateButton.setVisibility(View.GONE);
-	          
+	                 
 	        //==============================================================================
 	        //各种监听事件啊
 	        //==============================================================================    
@@ -161,11 +168,13 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 						pa.tag = 0;
 					}
 					DayTable[pa.tag].setCalendarDate(tempDate);
+					tempDate.setDay(1);
+					cr.setSolarDate(tempDate);
+			    	cr.Solar2Lunar();
+			    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
 					calFlipper.setInAnimation(context,R.layout.ani_dec_in);
 			        calFlipper.setOutAnimation(context,R.layout.ani_dec_out);
 					calFlipper.showPrevious();
-					//preDayTable.invalidate();
-					
 				}
 	        }
 	        dateDecButton.setOnClickListener(new DecOnClickListener(this));
@@ -218,6 +227,10 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 						pa.tag = 0;
 					}
 					DayTable[pa.tag].setCalendarDate(tempDate);
+					tempDate.setDay(1);
+					cr.setSolarDate(tempDate);
+			    	cr.Solar2Lunar();
+			    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
 					calFlipper.setInAnimation(context,R.layout.ani_inc_in);
 			        calFlipper.setOutAnimation(context,R.layout.ani_inc_out);
 					calFlipper.showNext();
@@ -248,7 +261,11 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 					{
 						pa.tag = 0;
 					}
-					DayTable[pa.tag].setCalendarDate(tempDate);					
+					DayTable[pa.tag].setCalendarDate(tempDate);	
+					tempDate.setDay(1);
+					cr.setSolarDate(tempDate);
+			    	cr.Solar2Lunar();
+			    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
 					calFlipper.setInAnimation(context,R.layout.ani_today_in);
 			        calFlipper.setOutAnimation(context,R.layout.ani_today_out);
 					calFlipper.showNext();
@@ -259,25 +276,40 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	        }
 	        nowDateButton.setOnClickListener(new NowDateOnClickListener(this));
 	 }
+	 
 
 	 //====================================================================================
 	 //手势滑屏
 	 //====================================================================================
 	 public boolean onTouchEvent (MotionEvent event)
-	{
-		 Log.i("onTouchEvent", "美女");
-			return this.mGestureDetector.onTouchEvent(event);
+	{	
+		 Log.i("order", "A");
+		//this.setSelectedInfo();
+		 cr.setSolarDate(DayTable[pa.tag].getSelectedDate());
+		 cr.Solar2Lunar();
+		 selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
+		return this.mGestureDetector.onTouchEvent(event);
 	}
 	 
+	/* public boolean onInterceptTouchEvent(MotionEvent event) 
+	{  
+		 Log.i("outView", "OUT");
+		 this.mGestureDetector.onTouchEvent(event);
+		 this.preDayTable.onTouchEvent(event);
+		 this.afterDayTable.onTouchEvent(event);
+         return false;
+	} */
+	
+	
 	 public boolean dispatchTouchEvent(MotionEvent event)
 	 {
-		 Log.i("dispatchTouchEvent", "帅哥");
-		 this.mGestureDetector.onTouchEvent(event);
+		 Log.i("ECalendarActivity", "dispatchTouchEvent");
+		 this.onTouchEvent(event);
 		 return super.dispatchTouchEvent(event);
 	 }
 	 
 	@Override
-	public boolean onDown(MotionEvent arg0) {
+	public boolean onDown(MotionEvent event) {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -288,7 +320,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3) {
 		// TODO Auto-generated method stub
-		Log.i("FG", "执行了滑屏");
+		Log.i("ECalendarActivity", "onFling");
 		if(arg0.getX()-arg1.getX()>flipSize)//向左移动
 		{
 			if(tempDate.getMonth() + 1 >=12 )
@@ -401,6 +433,10 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 		{
 			return false;
 		}
+		tempDate.setDay(1);
+		cr.setSolarDate(tempDate);
+    	cr.Solar2Lunar();
+    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
 		return true;
 	}
 
