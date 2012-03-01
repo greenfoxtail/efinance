@@ -63,7 +63,8 @@ public class DayGridView extends View implements OnGestureListener{
 	
 	private void setSolarDayPaint()
 	{
-		calPaint.setColor(Color.argb(255, 51, 51, 51));
+		//calPaint.setColor(Color.argb(255, 51, 51, 51));
+		calPaint.setColor(Color.WHITE);
 		calPaint.setAntiAlias(true);
 		calPaint.setTextSize(solarDayFontSize);
 	}
@@ -180,18 +181,18 @@ public class DayGridView extends View implements OnGestureListener{
 			canvas.drawText(WEEKDAY[i], deltaSolarWidth/2+i*deltaWidth, 4*firstRowHeight/5, calPaint);
 		}
 		calPaint.setColor(Color.argb(255, 102, 51, 102));
-		canvas.drawRect(new Rect(6*deltaWidth,0,WIDTH,firstRowHeight), calPaint);
+		canvas.drawRect(new Rect(6*deltaWidth,0,deltaWidth*7+1,firstRowHeight), calPaint);
 		calPaint.setColor(Color.WHITE);
 		canvas.drawText(WEEKDAY[6], deltaSolarWidth/2+6*deltaWidth, 4*firstRowHeight/5, calPaint);
 		
 		//绘制网格
 		this.setGridPaint();
 		canvas.drawLine(0, 0, WIDTH, 0, calPaint);
-		for(int i=0;i<rows-1;i++)
+		for(int i=0;i<rows;i++)
 		{
 			canvas.drawLine(0, firstRowHeight+deltaHeight*i, WIDTH, firstRowHeight+deltaHeight*i, calPaint);
 		}
-		canvas.drawLine(0, HEIGHT, WIDTH, HEIGHT, calPaint);
+		//canvas.drawLine(0, HEIGHT, WIDTH, HEIGHT, calPaint);
 		
 		for(int j=0;j<8;j++)
 		{
@@ -388,10 +389,10 @@ public class DayGridView extends View implements OnGestureListener{
 		//获取绘制区域参数
 		WIDTH =  this.getWidth();
 		HEIGHT = this.getHeight();
-		deltaWidth = WIDTH/7;
+		deltaWidth = WIDTH/7-1;
 		rows = cr.getCalendarRows();
 		firstRowHeight = (HEIGHT)/(2*rows);
-		deltaHeight = (HEIGHT - firstRowHeight)/(rows-1);
+		deltaHeight = (HEIGHT - firstRowHeight)/(rows-1)-1;
 		deltaSolarWidth = deltaWidth/4;
 		deltaLunarWidth = deltaWidth/3;
 		solarDayFontSize = deltaWidth/2;

@@ -171,7 +171,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 					tempDate.setDay(1);
 					cr.setSolarDate(tempDate);
 			    	cr.Solar2Lunar();
-			    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
+			    	selectedInfo.setText("农历:"+(cr.getLunarDate().getLeap()!=0?"闰":"")+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi()+(cr.getJieQi()=="noInfo" ? "":cr.getJieQi()));
 					calFlipper.setInAnimation(context,R.layout.ani_dec_in);
 			        calFlipper.setOutAnimation(context,R.layout.ani_dec_out);
 					calFlipper.showPrevious();
@@ -230,7 +230,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 					tempDate.setDay(1);
 					cr.setSolarDate(tempDate);
 			    	cr.Solar2Lunar();
-			    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
+			    	selectedInfo.setText("农历:"+(cr.getLunarDate().getLeap()!=0?"闰":"")+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi()+(cr.getJieQi()=="noInfo" ? "":cr.getJieQi()));
 					calFlipper.setInAnimation(context,R.layout.ani_inc_in);
 			        calFlipper.setOutAnimation(context,R.layout.ani_inc_out);
 					calFlipper.showNext();
@@ -265,7 +265,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 					tempDate.setDay(1);
 					cr.setSolarDate(tempDate);
 			    	cr.Solar2Lunar();
-			    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
+			    	selectedInfo.setText("农历:"+(cr.getLunarDate().getLeap()!=0?"闰":"")+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi()+(cr.getJieQi()=="noInfo" ? "":cr.getJieQi()));
 					calFlipper.setInAnimation(context,R.layout.ani_today_in);
 			        calFlipper.setOutAnimation(context,R.layout.ani_today_out);
 					calFlipper.showNext();
@@ -287,7 +287,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 		//this.setSelectedInfo();
 		 cr.setSolarDate(DayTable[pa.tag].getSelectedDate());
 		 cr.Solar2Lunar();
-		 selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
+		 selectedInfo.setText("农历:"+(cr.getLunarDate().getLeap()!=0?"闰":"")+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi()+(cr.getJieQi()=="noInfo" ? "":cr.getJieQi()));
 		return this.mGestureDetector.onTouchEvent(event);
 	}
 	 
@@ -436,7 +436,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 		tempDate.setDay(1);
 		cr.setSolarDate(tempDate);
     	cr.Solar2Lunar();
-    	selectedInfo.setText("农历:"+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi());
+    	selectedInfo.setText("农历:"+(cr.getLunarDate().getLeap()!=0?"闰":"")+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi()+(cr.getJieQi()=="noInfo" ? "":cr.getJieQi()));
 		return true;
 	}
 

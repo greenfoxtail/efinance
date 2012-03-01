@@ -13,32 +13,22 @@
 		android:textSize="15px"
 		android:text="@string/welcome"
 	/>  
-	<!-- 选中日的农历信息 -->	
-    <TextView android:id="@+id/selected_info_id"
-        android:layout_below="@id/lunar_info_id"
-        android:background="#c8000000"
-        android:textColor="#ffffffff"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:textSize="15px"
-		android:text="@string/welcome"
-	/>  
-	
-    
+	  
     <!-- 可滑动的日历显示界面 -->	  
     <ViewFlipper android:id="@+id/cal_flip_id"
                  android:layout_height="280dip"
-                 android:layout_width="280dip"
                  android:layout_centerInParent="true"
-                 android:layout_below="@id/selected_info_id">
+                 android:layout_width="fill_parent"
+                 android:layout_below="@id/lunar_info_id">
         
         <foxtail.efinance.ecalendar.DayGridView
-            android:background="#ffffffff"     
+            android:background="#b4000000"     
             android:id="@+id/pre_days_grid_id"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
         
         <foxtail.efinance.ecalendar.DayGridView
-            android:background="#ffffffff"     
+            android:background="#b4000000"     
             android:id="@+id/after_days_grid_id"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>       
@@ -47,8 +37,8 @@
     <!-- 简易的日历操作区域 -->
     <RelativeLayout android:id="@+id/relativeLayout_top_bar"
         android:layout_below="@id/cal_flip_id"
-	    android:background="#c8ffffff"
-		android:layout_width="fill_parent" android:layout_height="fill_parent">
+	    android:background="#c8000000"
+		android:layout_width="fill_parent" android:layout_height="60dip">
 
 		<Button android:id="@+id/month_dec_id"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -84,5 +74,16 @@
 		android:layout_alignParentBottom="true">    
 		</Button>
 	</RelativeLayout>
+	
+        
+        <!-- 选中日的农历信息 -->	
+    <TextView android:id="@+id/selected_info_id"
+        android:layout_below="@id/relativeLayout_top_bar"
+        android:background="#b4000000"
+        android:textColor="#ffffffff"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:textSize="15px"
+		android:text="@string/welcome"
+	/>  
 	
 </RelativeLayout>
