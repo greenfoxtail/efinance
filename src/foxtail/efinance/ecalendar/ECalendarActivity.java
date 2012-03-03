@@ -283,8 +283,6 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	 //====================================================================================
 	 public boolean onTouchEvent (MotionEvent event)
 	{	
-		 Log.i("order", "A");
-		//this.setSelectedInfo();
 		 cr.setSolarDate(DayTable[pa.tag].getSelectedDate());
 		 cr.Solar2Lunar();
 		 selectedInfo.setText("农历:"+(cr.getLunarDate().getLeap()!=0?"闰":"")+cr.getLunarDate().getMonthInHanzi()+"月"+cr.getLunarDate().getDayInHanzi()+(cr.getJieQi()=="noInfo" ? "":cr.getJieQi()));
@@ -303,7 +301,6 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	
 	 public boolean dispatchTouchEvent(MotionEvent event)
 	 {
-		 Log.i("ECalendarActivity", "dispatchTouchEvent");
 		 this.onTouchEvent(event);
 		 return super.dispatchTouchEvent(event);
 	 }
@@ -320,7 +317,6 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3) {
 		// TODO Auto-generated method stub
-		Log.i("ECalendarActivity", "onFling");
 		if(arg0.getX()-arg1.getX()>flipSize)//向左移动
 		{
 			if(tempDate.getMonth() + 1 >=12 )

@@ -63,8 +63,8 @@ public class DayGridView extends View implements OnGestureListener{
 	
 	private void setSolarDayPaint()
 	{
-		//calPaint.setColor(Color.argb(255, 51, 51, 51));
-		calPaint.setColor(Color.WHITE);
+		calPaint.setColor(Color.argb(255, 51, 51, 51));
+		//calPaint.setColor(Color.WHITE);
 		calPaint.setAntiAlias(true);
 		calPaint.setTextSize(solarDayFontSize);
 	}
@@ -161,11 +161,8 @@ public class DayGridView extends View implements OnGestureListener{
 			
 	private void drawDateTable(Canvas canvas)
 	{
-		Log.i("order", "E");
 		//canvas.drawColor(Color.argb(255, 255, 255, 255));
 		//绘制星期栏
-		//this.setWeekTitleBackgroundPaint();
-		//canvas.drawRect(new Rect(edge,edge,WIDTH-edge,firstRowHeight+edge), calPaint);
 		String []WEEKDAY = {"周日","周一","周二","周三","周四","周五","周六"};
 		this.setWeekTitlePaint();
 		calPaint.setColor(Color.argb(255, 102, 51, 102));
@@ -388,6 +385,7 @@ public class DayGridView extends View implements OnGestureListener{
 		//===============================================
 		//获取绘制区域参数
 		WIDTH =  this.getWidth();
+		Log.i("WIDTH", Integer.toString(WIDTH));
 		HEIGHT = this.getHeight();
 		deltaWidth = WIDTH/7-1;
 		rows = cr.getCalendarRows();
@@ -398,31 +396,19 @@ public class DayGridView extends View implements OnGestureListener{
 		solarDayFontSize = deltaWidth/2;
 		lunarDayFontSize = deltaHeight/5;
 		titleFontSize = 2*firstRowHeight/3;
+		deltaWidth +=1;
 		//================================================
 			
 		drawDateTable(canvas);
 	}
 	
-	/*
-	public boolean dispatchTouchEvent(MotionEvent event)
-	{
-		 Log.i("ECalendarActivity", "dispatchTouchEvent");
-		 this.onTouchEvent(event);
-		 return true;
-	}*/
-	
 	 public boolean onTouchEvent (MotionEvent event)
 	{
-		 Log.i("order", "F");
-		 Log.i("onTouchEvent", "in GRIDVIEW X="+Integer.toString((int)event.getX()));
-		 //super.onTouchEvent(event);
 		 return this.dgvGestureDetector.onTouchEvent(event);
 	}
 
 	@Override
 	public boolean onDown(MotionEvent event) {
-		Log.i("order", "G");
-		Log.i("onTouchEvent", "in GRIDVIEW onDown X="+Integer.toString((int)event.getX()));
 		// TODO Auto-generated method stub
 		this.touchX = (int)event.getX();
 		this.touchY = (int)event.getY();
