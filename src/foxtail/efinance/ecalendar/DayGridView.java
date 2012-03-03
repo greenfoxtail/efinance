@@ -188,12 +188,14 @@ public class DayGridView extends View implements OnGestureListener{
 		for(int i=0;i<rows;i++)
 		{
 			canvas.drawLine(0, firstRowHeight+deltaHeight*i, WIDTH, firstRowHeight+deltaHeight*i, calPaint);
+			//canvas.drawLine(0, firstRowHeight+deltaHeight*(rows-1)+i, WIDTH, firstRowHeight+deltaHeight*(rows-1)+i, calPaint);
 		}
 		//canvas.drawLine(0, HEIGHT, WIDTH, HEIGHT, calPaint);
 		
 		for(int j=0;j<8;j++)
 		{
 			canvas.drawLine(deltaWidth*j, firstRowHeight, deltaWidth*j, HEIGHT, calPaint);
+			//canvas.drawLine(deltaWidth*7+j, 0, deltaWidth*7+j, HEIGHT, calPaint);
 		}//edge+deltaWidth*j    WIDTH-edge-deltaWidth*j
 		
 		boolean isToday = false;
@@ -202,6 +204,7 @@ public class DayGridView extends View implements OnGestureListener{
 		int m = INDEX;
 		int n = 0;
 		int r = 0;
+
 		for(int i=0;i<END;i++)
 		{
 			Date tempDate = new Date(cr.getSolarDate());
@@ -363,7 +366,7 @@ public class DayGridView extends View implements OnGestureListener{
 				calPaint.setColor(Color.WHITE);
 				canvas.drawText(cr.getLunarDate().getDayInHanzi(), deltaLunarWidth+touchCol*deltaWidth, firstRowHeight+deltaHeight+touchRow*deltaHeight-edge, calPaint);
 			}
-		}	
+		}
 	}
 	
 	private int getSelectedDay()
@@ -387,16 +390,16 @@ public class DayGridView extends View implements OnGestureListener{
 		WIDTH =  this.getWidth();
 		Log.i("WIDTH", Integer.toString(WIDTH));
 		HEIGHT = this.getHeight();
-		deltaWidth = WIDTH/7-1;
+		deltaWidth = WIDTH/7;
 		rows = cr.getCalendarRows();
 		firstRowHeight = (HEIGHT)/(2*rows);
-		deltaHeight = (HEIGHT - firstRowHeight)/(rows-1)-1;
+		deltaHeight = (HEIGHT - firstRowHeight)/(rows-1);
 		deltaSolarWidth = deltaWidth/4;
 		deltaLunarWidth = deltaWidth/3;
 		solarDayFontSize = deltaWidth/2;
 		lunarDayFontSize = deltaHeight/5;
 		titleFontSize = 2*firstRowHeight/3;
-		deltaWidth +=1;
+		//deltaWidth++;
 		//================================================
 			
 		drawDateTable(canvas);

@@ -16,19 +16,20 @@
 	  
     <!-- 可滑动的日历显示界面 -->	  
     <ViewFlipper android:id="@+id/cal_flip_id"
+                 android:background="#c8ffffff"
                  android:layout_height="280dip"
                  android:layout_centerInParent="true"
                  android:layout_width="fill_parent"
                  android:layout_below="@id/lunar_info_id">
         
         <foxtail.efinance.ecalendar.DayGridView
-            android:background="#ffffffff"     
+            android:background="#00ffffff"     
             android:id="@+id/pre_days_grid_id"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
         
         <foxtail.efinance.ecalendar.DayGridView
-            android:background="#ffffffff"     
+            android:background="#00ffffff"     
             android:id="@+id/after_days_grid_id"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>       
