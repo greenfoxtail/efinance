@@ -2,6 +2,7 @@
 <TabHost android:id="@android:id/tabhost" android:layout_width="fill_parent" android:layout_height="fill_parent"
 xmlns:android="http://schemas.android.com/apk/res/android"> 
     <LinearLayout 
+        android:background="#ffffffff"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -21,45 +22,51 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         
         <RadioGroup 
             android:gravity="center_vertical"
+            android:background="@drawable/foot_bg"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:id="@+id/bottom_tab_radio"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dip">
             
             <RadioButton 
                 android:id="@+id/tab_calendar"
                 android:tag="tab_calendar"
-                android:layout_marginTop="2.0dip"
                 android:text="@string/tab_calendar"
+                android:drawableTop="@drawable/calendar"
+                android:layout_marginTop="1.0dip" 
                 style="@style/bottom_tab"/>
             
             <RadioButton 
                 android:id="@+id/tab_query"
                 android:tag="tab_query"
-                android:layout_marginTop="2.0dip"
                 android:text="@string/tab_query"
+                android:drawableTop="@drawable/search"
+                android:layout_marginTop="1.0dip" 
                 style="@style/bottom_tab"/>
             
             <RadioButton 
                 android:id="@+id/tab_analysis"
                 android:tag="tab_analysis"
-                android:layout_marginTop="2.0dip"
                 android:text="@string/tab_analysis"
+                android:drawableTop="@drawable/analysis"
+                android:layout_marginTop="1.0dip" 
                 style="@style/bottom_tab"/>
             
             <RadioButton 
                 android:id="@+id/tab_calculator"
                 android:tag="tab_calculator"
-                android:layout_marginTop="2.0dip"
                 android:text="@string/tab_calculator"
+                android:drawableTop="@drawable/calculator"
+                android:layout_marginTop="1.0dip" 
                 style="@style/bottom_tab"/>
             
             <RadioButton 
                 android:id="@+id/tab_setting"
                 android:tag="tab_setting"
-                android:layout_marginTop="2.0dip"
                 android:text="@string/tab_setting"
+                android:drawableTop="@drawable/setting"
+                android:layout_marginTop="1.0dip" 
                 style="@style/bottom_tab"/>
 
         </RadioGroup>          

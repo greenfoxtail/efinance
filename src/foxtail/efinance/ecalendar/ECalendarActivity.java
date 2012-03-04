@@ -115,7 +115,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 	               
 	        preDayTable.setCalendarDate(nowDate);      
 	        afterDayTable.setCalendarDate(nowDate);
-	        nowDateButton.setVisibility(View.GONE);
+	        nowDateButton.setVisibility(View.INVISIBLE);
 	                 
 	        //==============================================================================
 	        //各种监听事件啊
@@ -141,7 +141,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 						}
 						else
 						{
-							nowDateButton.setVisibility(View.GONE);
+							nowDateButton.setVisibility(View.INVISIBLE);
 						}
 					}
 					else
@@ -153,7 +153,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 						}
 						else
 						{
-							nowDateButton.setVisibility(View.GONE);
+							nowDateButton.setVisibility(View.INVISIBLE);
 						}
 					}
 					
@@ -200,7 +200,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 						}
 						else
 						{
-							nowDateButton.setVisibility(View.GONE);
+							nowDateButton.setVisibility(View.INVISIBLE);
 						}
 					}
 					else
@@ -212,7 +212,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 						}
 						else
 						{
-							nowDateButton.setVisibility(View.GONE);
+							nowDateButton.setVisibility(View.INVISIBLE);
 						}
 					}
 					
@@ -252,7 +252,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 					// TODO Auto-generated method stub
 					tempDate.setDate(nowDate);
 					tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
-					nowDateButton.setVisibility(View.GONE);
+					nowDateButton.setVisibility(View.INVISIBLE);
 					if(pa.tag == 0)
 					{
 						pa.tag = 1;
@@ -329,7 +329,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 				}
 				else
 				{
-					nowDateButton.setVisibility(View.GONE);
+					nowDateButton.setVisibility(View.INVISIBLE);
 				}
 			}
 			else
@@ -341,7 +341,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 				}
 				else
 				{
-					nowDateButton.setVisibility(View.GONE);
+					nowDateButton.setVisibility(View.INVISIBLE);
 				}
 			}
 			
@@ -373,7 +373,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 				}
 				else
 				{
-					nowDateButton.setVisibility(View.GONE);
+					nowDateButton.setVisibility(View.INVISIBLE);
 				}
 			}
 			else
@@ -385,7 +385,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 				}
 				else
 				{
-					nowDateButton.setVisibility(View.GONE);
+					nowDateButton.setVisibility(View.INVISIBLE);
 				}
 			}
 			
@@ -411,7 +411,7 @@ public class ECalendarActivity extends Activity implements OnGestureListener{
 		{
 			tempDate.setDate(nowDate);
 			tv.setText(Integer.toString(tempDate.getYear())+"年"+Integer.toString(tempDate.getMonth())+"月");
-			nowDateButton.setVisibility(View.GONE);
+			nowDateButton.setVisibility(View.INVISIBLE);
 			if(pa.tag == 0)
 			{
 				pa.tag = 1;
