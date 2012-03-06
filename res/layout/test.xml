@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:daygrid="http://schemas.android.com/apk/res/foxtail.efinance.ecalendar.DayGridView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+
+		
+        <foxtail.efinance.ecalendar.DayGridView
+            android:id="@+id/test_grid_id"
+            android:layout_width="fill_parent"
+            android:layout_height="200dip"/>
+
+
+
+    
+
+</LinearLayout>

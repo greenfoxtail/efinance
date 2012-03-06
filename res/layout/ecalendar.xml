@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:daygrid="http://schemas.android.com/apk/res/foxtail.efinance.ecalendar.DayGridView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    android:gravity="fill" >
+
+    <!-- 简易的日历操作区域 -->
+    <LinearLayout android:id="@+id/relativeLayout_top_bar"
+	    android:background="#ff000000"
+		android:layout_width="fill_parent" 
+		android:layout_height="40dip">
+
+		<Button android:id="@+id/month_dec_id"
+		android:layout_width="45dip"
+		android:layout_height="fill_parent"
+		android:drawableLeft="@drawable/arrow_dec"
+		android:drawableRight="@drawable/separator"
+		android:background="@drawable/header_button_bg">
+	    </Button>
+	   
+		<TextView android:id="@+id/year_month_text_id"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:background="@drawable/header_bg"
+		android:gravity="center"
+		android:layout_weight="1"
+		android:textSize="20dip"
+		android:textColor="#ffffffff"
+		android:text="@string/welcome"
+		/>  
+		
+		<Button android:id="@+id/month_inc_id"
+		android:layout_width="45dip" android:layout_height="fill_parent"
+		android:drawableRight="@drawable/arrow_inc"
+		android:drawableLeft="@drawable/separator"
+		android:background="@drawable/header_button_bg"/>
+	</LinearLayout>
+	
+    <LinearLayout android:id="@+id/mid_info_id"
+        android:layout_below="@id/relativeLayout_top_bar"
+        android:background="@drawable/today_info_bg"
+        android:layout_width = "fill_parent"
+        android:layout_height="20dip"> 
+    <!-- 当天农历信息 -->
+    <TextView android:id="@+id/lunar_info_id"
+        android:textColor="#ff660000"
+        android:gravity="center"
+		android:layout_width="fill_parent" android:layout_height="20dip"
+		android:textSize="15px"
+		android:text="@string/welcome"
+	/> 
+	</LinearLayout>
+
+    <!-- 可滑动的日历显示界面 -->	  
+    <ViewFlipper android:id="@+id/cal_flip_id"
+        android:layout_below="@id/mid_info_id"
+                 android:background="#ffffffff"
+                 android:layout_height="280dip"
+                 android:layout_weight="1"
+                 android:layout_width="fill_parent">
+        
+        <foxtail.efinance.ecalendar.DayGridView
+            android:background="#00ffffff"     
+            android:id="@+id/pre_days_grid_id"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+        
+        <foxtail.efinance.ecalendar.DayGridView
+            android:background="#00ffffff"     
+            android:id="@+id/after_days_grid_id"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>       
+    </ViewFlipper>
+    
+        
+        <LinearLayout android:id="@+id/top_info_id"
+        android:layout_below="@id/cal_flip_id"
+        android:background="@drawable/today_info_bg"
+        android:layout_width = "fill_parent"
+        android:layout_height="40dip">        
+  
+    <Button android:id="@+id/today_id"
+		android:layout_width="40dip" android:layout_height="40dip"
+		android:drawableRight="@drawable/back"
+		android:paddingRight="10dip"
+		android:layout_marginBottom="2.0dip"
+		android:background="@drawable/today_info_bg"/>
+    
+    <!-- 选中日的农历信息 -->	
+    <TextView android:id="@+id/selected_info_id"
+        android:textColor="#ff330000"
+		android:layout_width="50dip" android:layout_height="40dip"
+		android:gravity="center"
+		android:layout_weight="1"
+		android:textSize="15px"
+		android:text="@string/welcome"
+	/>  
+	</LinearLayout>
+</LinearLayout>
